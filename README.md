@@ -10,6 +10,7 @@ Project 1: Exploratory Data Analysis (EDA) on the IRIS Dataset
 Project 2: Prediction of Employee Attrition.
 
 The IRIS dataset is a classic dataset in the field of machine learning and provides valuable insights into the characteristics of different iris flower species.
+
 Employee attrition, or turnover, is a critical issue for organizations, and being able to predict and understand the factors contributing to it can help in developing effective retention strategies.
 
 Hoping you will get the code and its understanding!!
