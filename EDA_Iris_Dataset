@@ -1,0 +1,52 @@
+#importing the necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+from sklearn.ensemble import RandomForestClassifier
+
+# Load the Iris dataset
+iris = load_iris()
+df = pd.DataFrame(data= np.c_[iris['data'], iris['target']], columns= iris['feature_names'] + ['target'])
+
+#printing the first few rows of the dataset
+df.head()
+
+#Displaying the basic information about the dataset
+df.info()
+
+# providing the description of the dataset in the form of summary statistics
+df.describe()
+
+#checking for the missing vlaues
+df.isnull().sum()
+
+# Data visualization as the Histograms
+df.hist()
+plt.show()
+
+# Data Visualization as the Pairplot
+sns.pairplot(df, hue='target')
+plt.show()
+
+# Data visualization as the Boxplot
+sns.boxplot(data=df)
+plt.show()
+
+# Data Visualization as the Scatter plot
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x='sepal length (cm)', y='sepal width (cm)', hue='target', data=df)
+plt.title('Sepal Length vs Sepal Width')
+plt.show()
+
+# Class distribution
+sns.countplot(x='target', data=df)
+plt.title('Class Distribution')
+plt.show()
+
+# Correlation analysis
+correlation = df.corr()
+sns.heatmap(correlation, annot=True, cmap='coolwarm')
+plt.title('Correlation Matrix')
+plt.show()
