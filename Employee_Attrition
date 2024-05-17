@@ -57,3 +57,34 @@ a4
 #checking the description i.e. along with rows and columns names
 b4=df_train.describe()
 b4
+
+#checking the value counts for test dataset
+a5 = a["Age"].value_counts()
+a5
+
+#checking the value counts for train dataset
+b5 = b["Age"].value_counts()
+b5
+
+#checking the Count of different age of people for test dataset
+a6=a['Age'].value_counts().plot(kind='bar',color=['salmon','lightblue'],title="Count of different age of people")
+a6
+
+#checking the Count of different age of people for train dataset
+b6=b['Age'].value_counts().plot(kind='bar',color=['salmon','lightblue'],title="Count of different age of people")
+b6
+
+# Creating the test dataset with all independent variables
+X = dataset_test.iloc[:,:-1]
+X
+# Creating the test dataset with the dependent variable
+Y = dataset_test.iloc[:,-1]
+Y
+
+# Creating the train dataset with all independent variables
+X = dataset_train.iloc[:,:-1]
+X
+# Creating the train  dataset with the dependent variable
+Y = dataset_train.iloc[:,-1]
+Y
+
