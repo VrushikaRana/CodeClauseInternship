@@ -1,0 +1,59 @@
+#importing necessary libraries 
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
+from sklearn import datasets
+from sklearn.metrics import accuracy_score
+import xgboost as xgb
+
+# Load the employee attrition test dataset
+dataset_test = pd.read_csv('/content/employee_attrition_test.csv')
+a=dataset_test.head()
+a
+
+# Load the employee attrition train dataset
+dataset_train= pd.read_csv('/content/employee_attrition_train.csv')
+b=dataset_train.head()
+b
+
+# checking the null values of test dataset
+a1=a.isnull().sum()
+a1
+
+# checking the null values of train dataset
+b1=b.isnull().sum()
+b1
+
+# checking the shape of test dataset
+a2=a.shape
+a2
+
+# checking the shape of test dataset
+b2=b.shape
+b2
+
+#fill the null values of test dataset
+df_test=a.fillna(method="ffill")
+df_test
+
+#fill the null values of train dataset
+df_train=b.fillna(method="ffill")
+df_train
+
+# checking the values of test dataset
+a3=df_test.isnull().sum()
+a3
+
+# checking the values of train dataset
+b3=df_train.isnull().sum()
+b3
+
+#checking the description i.e. along with rows and columns names
+a4=df_test.describe()
+a4
+
+#checking the description i.e. along with rows and columns names
+b4=df_train.describe()
+b4
