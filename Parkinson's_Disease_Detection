@@ -1,0 +1,74 @@
+# importing necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score,classification_report
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import roc_auc_score, confusion_matrix, accuracy_score
+
+parkinsons_data = pd.read_csv('/content/sample_data/Parkinsson_Disease.csv')
+parkinsons_data
+
+# (II) Data Processing : Loading first 5 Rows
+parkinsons_data.head()
+
+#loading last five rows
+parkinsons_data.tail()
+
+#getting the rows and columns as the shapae
+parkinsons_data.shape
+
+#getting the brief information about the dataset
+parkinsons_data.info()
+
+#getting the statistical measure
+parkinsons_data.describe()
+
+# checking for missing values
+parkinsons_data.isnull().sum()
+
+#checking the null values
+parkinsons_data.isnull().sum().sum()
+
+# checking the distribution of DFA variables
+parkinsons_data['DFA'].value_counts()
+
+# (III) Splitting the parkinsons_data into features and Jitter:DDP variable
+X = parkinsons_data.drop('Jitter:DDP', axis=1)
+X
+
+y = parkinsons_data['Jitter:DDP']
+y
+
+# Creating theparkinsons_data with all independent variables
+X =parkinsons_data.iloc[:,:-1]
+X
+
+# Creating the dataset with the dependent variable
+Y = parkinsons_data.iloc[:,-1]
+Y
+
+# Splitting the dataset into the Training set and Test set
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 42)
+
+print("The shape of train dataset :")
+print(X_train.shape)
+
+print("\n The shape of test dataset :")
+print(X_test.shape)
+
+print("Distribution of classes of dependent variable in train :")
+print(Y_train.value_counts())
+
+print("\n Distribution of classes of dependent variable in test :")
+print(Y_test.value_counts())
+
+# Hyperparameter tuning
+
+classifier1 = RandomForestClassifier() # For GBM, use GradientBoostingClassifier()
+grid_values = {'n_estimators':[10, 20], 'max_depth':[3, 5]}
+classifier = GridSearchCV(classifier1, param_grid = grid_values, scoring = 'roc_auc', cv=5)
