@@ -1,0 +1,157 @@
+# importing necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score,classification_report
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import roc_auc_score, confusion_matrix, accuracy_score
+
+# (I) Data Collection : Loading the dataset
+dataset=pd.read_csv('/content/sample_data/Heart_Disease.csv')
+dataset
+
+# (II) Data Processing : Loading first 5 Rows
+dataset.head()
+
+#loading last five rows
+dataset.tail()
+
+#getting the rows and columns as the shapae
+dataset.shape
+
+#getting the brief information about the dataset
+dataset.info()
+
+#getting the statistical measure
+dataset.describe()
+
+# checking for missing values
+dataset.isnull().sum()
+
+#checking the null values
+dataset.isnull().sum().sum()
+
+# checking the distribution of Heart_Disease variables
+dataset['Heart_Disease'].value_counts()
+
+# (III) Splitting the dataset into features and Alcohol_Consumption variable
+X = dataset.drop('Alcohol_Consumption', axis=1)
+X
+
+y = dataset['Alcohol_Consumption']
+y
+
+#Encoding the categorical variables
+dataset = pd.get_dummies(dataset)
+dataset
+
+#Handling missing values
+handle=dataset.fillna(dataset.mean(), inplace=True)
+handle
+
+# Creating the dataset with all independent variables
+X = dataset.iloc[:,:-1]
+X
+
+# Creating the dataset with the dependent variable
+Y = dataset.iloc[:,-1]
+Y
+
+# Splitting the dataset into the Training set and Test set
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size = 0.2, random_state = 0, stratify = Y)
+print("The shape of train dataset :")
+print(X_train.shape)
+
+print("\n The shape of test dataset :")
+print(X_test.shape)
+
+print("Distribution of classes of dependent variable in train :")
+print(Y_train.value_counts())
+
+print("\n Distribution of classes of dependent variable in test :")
+print(Y_test.value_counts())
+
+# Hyperparameter tuning
+
+classifier1 = RandomForestClassifier() # For GBM, use GradientBoostingClassifier()
+grid_values = {'n_estimators':[10, 20], 'max_depth':[3, 5]}
+classifier = GridSearchCV(classifier1, param_grid = grid_values, scoring = 'roc_auc', cv=5)
+
+# Fit the object to train dataset
+classifier.fit(X_train, Y_train)
+
+train_preds =  classifier.predict(X_train)
+train_preds
+
+test_preds  = classifier.predict(X_test)
+test_preds
+
+# Obtain accuracy on train set
+accuracy_score(Y_train,train_preds)
+
+# Obtain accuracy on test set
+accuracy_score(Y_test,test_preds)
+
+# Calculate roc_auc score on train set
+roc_auc_score(Y_train,train_preds)
+
+# Calculate roc_auc score on test set
+roc_auc_score(Y_test,test_preds)
+
+# Obtain the confusion matrix on train set
+confusion_matrix(Y_train,train_preds)
+
+# Obtain the confusion matrix on train set
+confusion_matrix(Y_train,train_preds)
+
+#plotting
+features = X_train.columns
+importances = classifier.best_estimator_.feature_importances_ ## if best_estimator not chosen so you will face error
+indices = np.argsort(importances)
+plt.title('Feature Importance')
+plt.barh(range(len(indices)), importances[indices], color='red', align='center')
+plt.yticks(range(len(indices)), [features[i] for i in indices])
+plt.xlabel('Relative Importance')
+
+plt.show()
+
+#plotting
+features = X_test.columns
+importances = classifier.best_estimator_.feature_importances_ ## if best_estimator not chosen so you will face error
+indices = np.argsort(importances)
+plt.title('Feature Importance')
+plt.barh(range(len(indices)), importances[indices], color='red', align='center')
+plt.yticks(range(len(indices)), [features[i] for i in indices])
+plt.xlabel('Relative Importance')
+
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
